@@ -61,9 +61,11 @@ function checkDeviceOrientationPermission() {
             })
             .catch(console.error);
     } else {
-        // 古いブラウザ
+        // 古いブラウザ (Android, PCなど) は許可を必要としないとみなす
+        hasPermission = true;
+        permissionRequestDiv.classList.add('hidden'); // permissionRequest を非表示にする
         window.addEventListener('deviceorientation', handleOrientation);
-        resetButton.click(); // 古いブラウザでは常に許可されていると想定
+        resetButton.click(); // リセットを実行
     }
 }
 
