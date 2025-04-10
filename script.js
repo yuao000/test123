@@ -48,18 +48,24 @@ const handleOrientation = (event) => {
 function checkDeviceOrientationPermission() {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         // iOS 13以降
+        permissionRequestDiv.classList.remove('hidden'); // 初期状態で表示
         DeviceOrientationEvent.requestPermission()
             .then(permissionState => {
+                console.log('Permission State:', permissionState); // 許可状態をログに出力
                 if (permissionState === 'granted') {
                     hasPermission = true;
-                    permissionRequestDiv.classList.add('hidden');
+                    permissionRequestDiv.classList.add('hidden'); // 許可後に非表示
                     window.addEventListener('deviceorientation', handleOrientation);
                     resetButton.click(); // 許可が得られたらリセットを実行
                 } else {
-                    permissionRequestDiv.classList.remove('hidden');
+                    // 拒否された場合は表示したままにする
+                    alert('モーションセンサーへのアクセスが拒否されました。設定から許可してください。');
                 }
             })
-            .catch(console.error);
+            .catch(error => {
+                console.error('許可リクエスト中にエラーが発生しました。', error);
+                alert('モーションセンサーへのアクセス許可に失敗しました。');
+            });
     } else {
         // 古いブラウザ (Android, PCなど) は許可を必要としないとみなす
         hasPermission = true;
@@ -79,17 +85,21 @@ permissionButton.addEventListener('click', () => {
     if (typeof DeviceOrientationEvent.requestPermission === 'function') {
         DeviceOrientationEvent.requestPermission()
             .then(permissionState => {
+                console.log('Permission State (Button):', permissionState); // 許可状態をログに出力
                 if (permissionState === 'granted') {
                     hasPermission = true;
-                    permissionRequestDiv.classList.add('hidden');
+                    permissionRequestDiv.classList.add('hidden'); // 許可後に非表示
                     window.addEventListener('deviceorientation', handleOrientation);
                     resetButton.click(); // 許可が得られたらリセットを実行
                 } else {
-                    permissionRequestDiv.classList.remove('hidden');
+                    // 拒否された場合は表示したままにする
                     alert('モーションセンサーへのアクセスが拒否されました。設定から許可してください。');
                 }
             })
-            .catch(console.error);
+            .catch(error => {
+                console.error('許可リクエスト中にエラーが発生しました。', error);
+                alert('モーションセンサーへのアクセス許可に失敗しました。');
+            });
     } else {
         alert('お使いのブラウザはモーションセンサーの許可をサポートしていません。');
     }
