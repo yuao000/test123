@@ -39,9 +39,9 @@ const handleOrientation = (event) => {
         isFirstOrientation = false;
     }
 
-    betaElement.textContent = currentBeta - initialBeta;
-    alphaElement.textContent = currentAlpha - initialAlpha;
-    gammaElement.textContent = currentGamma - initialGamma;
+    betaElement.textContent = Math.round(currentBeta - initialBeta*1000)/1000;
+    alphaElement.textContent = Math.round(currentAlpha - initialAlpha*1000)/1000;
+    gammaElement.textContent = Math.round(currentGamma - initialGamma*1000)/1000;
 };
 
 // モーションセンサーの利用可能性と許可をチェック
