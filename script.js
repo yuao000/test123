@@ -28,9 +28,9 @@ let orientationEventListener = null;
 
 // デバイスの向きが変化したときの処理
 const handleOrientation = (event) => {
-    currentBeta = event.beta ? Math.round(event.beta*1000)/1000 : 0;   // 前後 (X軸回転) -180 ~ 180
-    currentAlpha = event.alpha ? Math.round(event.alpha*1000)/1000 : 0; // 方角 (Z軸回転) 0 ~ 360
-    currentGamma = event.gamma ? Math.round(event.gamma*1000)/1000 : 0; // 左右 (Y軸回転) -90 ~ 90
+    currentBeta = event.beta ? event.beta : 0;   // 前後 (X軸回転) -180 ~ 180
+    currentAlpha = event.alpha ? event.alpha : 0; // 方角 (Z軸回転) 0 ~ 360
+    currentGamma = event.gamma ? event.gamma : 0; // 左右 (Y軸回転) -90 ~ 90
 
     if (isFirstOrientation) {
         initialBeta = currentBeta;
@@ -39,9 +39,9 @@ const handleOrientation = (event) => {
         isFirstOrientation = false;
     }
 
-    betaElement.textContent = Math.round(currentBeta - initialBeta*1000)/1000;
-    alphaElement.textContent = Math.round(currentAlpha - initialAlpha*1000)/1000;
-    gammaElement.textContent = Math.round(currentGamma - initialGamma*1000)/1000;
+    betaElement.textContent = (currentBeta - initialBeta).toFixed(1);
+    alphaElement.textContent = (currentAlpha - initialAlpha).toFixed(1);
+    gammaElement.textContent = (currentGamma - initialGamma).toFixed(1);
 };
 
 // モーションセンサーの利用可能性と許可をチェック
